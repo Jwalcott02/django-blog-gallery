@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Website</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: #f5f7fa;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-weight: 700;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+        }
+
+        .card-img-top {
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-weight: 600;
+        }
+
+        .card-text {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .action-links a {
+            font-size: 0.85rem;
+            margin-right: 8px;
+        }
+
+        .meta {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .btn-edit {
+            color: #007bff;
+        }
+
+        .btn-delete {
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+    <div class="page-title">
+        <h1>Today's New Blogs</h1>
+        <p class="text-muted">Fresh updates from our community</p>
+    </div>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <a href="{% url 'product_detail' product.pk %}">
+                        <img src="{{ product.image.url }}" alt="{{ product.created_name }}" class="card-img-top">
+                    </a>
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ product.name }}</h5>
+
+                        <p class="card-text">
+                            {{ product.short_description|truncatechars:120 }}
+                        </p>
+
+                        <div class="mt-auto">
+                            <div class="action-links mb-2">
+                                <a href="{% url 'edit_product' product.pk %}" class="btn-edit">Edit</a>
+                                <a href="{% url 'delete_product' product.pk %}" class="btn-delete">Delete</a>
+                            </div>
+
+                            <div class="meta">
+                                Created: {{ product.created_at|date:"M d, Y" }} <br>
+                                Updated: {{ product.updated_at|date:"M d, Y" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
